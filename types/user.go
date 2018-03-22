@@ -11,12 +11,15 @@ const (
 	endpoint = "https://github.com/%s.keys"
 )
 
+// Users is the basic object to display the user details
 type Users struct {
 	Name string   `json:"Name" yaml:"Name"`
 	Keys []string `json:"Keys" yaml:"Keys"`
 }
 
 // GetKeys will fetch the user's public ssh keys from Github
+// You can limit how many keys are stored by the argument.
+// If you set the limit to zero, it is considered to be unlimited.
 func (u *Users) GetKeys(limit int) error {
 	resp, err := http.Get(fmt.Sprintf(endpoint, u.Name))
 	if err != nil {

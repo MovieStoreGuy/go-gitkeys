@@ -19,17 +19,20 @@ const (
 )
 
 var (
-	Formats = map[string]int{
+	formats = map[string]int{
 		"yaml": _yaml,
 		"json": _json,
 		"raw":  _raw,
 	}
 )
 
+// Printer is a container for io.Writer with formatted output.
 type Printer struct {
 	output io.Writer
 }
 
+// CreatePrinter will create a new printer object with
+// the set writer
 func CreatePrinter(w io.Writer) (*Printer, error) {
 	if w == nil {
 		return nil, errors.New("Trying to create printer with a nil writer")
@@ -37,21 +40,13 @@ func CreatePrinter(w io.Writer) (*Printer, error) {
 	return &Printer{output: w}, nil
 }
 
+// Print takes all the users and print them out desired format
 func (p *Printer) Print(format string, users []types.Users) error {
-	switch Formats[strings.ToLower(format)] {
+	switch formats[strings.ToLower(format)] {
 	case _yaml:
-		buff, err := yaml.Marshal(&users)
-		if err != nil {
-			return err
-		}
-		fmt.Fprintln(p.output, string(buff))
+		return p.yamlOutput(users)
 	case _json:
-		buff, err := marshal.PureMarshal(&users)
-		if err != nil {
-			return err
-		}
-		fmt.Fprint(p.output, "---")
-		fmt.Fprintln(p.output, string(buff))
+		return p.jsonOutput(users)
 	case _raw:
 		for _, user := range users {
 			fmt.Fprintln(p.output, user.Name)
@@ -64,5 +59,24 @@ func (p *Printer) Print(format string, users []types.Users) error {
 	default:
 		return errors.New("Unknown format being defined")
 	}
+	return nil
+}
+
+func (p *Printer) yamlOutput(users []types.Users) error {
+	buff, err := yaml.Marshal(&users)
+	if err != nil {
+		return err
+	}
+	fmt.Fprint(p.output, "---")
+	fmt.Fprintln(p.output, string(buff))
+	return nil
+}
+
+func (p *Printer) jsonOutput(users []types.Users) error {
+	buff, err := marshal.PureMarshal(&users)
+	if err != nil {
+		return err
+	}
+	fmt.Fprintln(p.output, string(buff))
 	return nil
 }
