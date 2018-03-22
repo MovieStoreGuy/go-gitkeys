@@ -11,6 +11,11 @@ THAT WOULD BE AMAZING!
 Well, go no further, we have made exactly that!
 This application fetches public ssh keys from Github to make it easier on your DevOps team.
 
+# Installation
+```sh
+go get -u github.com/MovieStoreGuy/keyobtainer
+```
+
 # Usage
 ```
 Usage of ./keyobtainer:
