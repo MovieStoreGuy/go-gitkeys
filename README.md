@@ -1,5 +1,6 @@
 # Keyobtainer - cli tool to download org/user keys
-[![Build Status](https://travis-ci.org/MovieStoreGuy/keyobtainer.svg?branch=master)](https://travis-ci.org/MovieStoreGuy/keyobtainer)  
+[![Build Status](https://travis-ci.org/MovieStoreGuy/keyobtainer.svg?branch=master)](https://travis-ci.org/MovieStoreGuy/keyobtainer)
+[![Go Report Card](https://goreportcard.com/badge/github.com/MovieStoreGuy/keyobtainer)](https://goreportcard.com/report/github.com/MovieStoreGuy/keyobtainer)  
 Imagine you are trying to provide ssh access to your internal development team and you require to obtain
 their public ssh key at varying times.
 Now, imagine if you could automatically grab their most recent public ssh keys without having to ask them!  
