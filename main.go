@@ -1,14 +1,11 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	"log"
-	"net/http"
 
-	"github.com/google/go-github/github"
-	"golang.org/x/oauth2"
+	"github.com/MovieStoreGuy/keyobtainer/engine"
 )
 
 var (
@@ -28,28 +25,11 @@ func init() {
 
 func main() {
 	flag.Parse()
-	var authClient *http.Client
-	if githubToken != "" {
-		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: githubToken},
-		)
-		authClient = oauth2.NewClient(context.Background(), ts)
+	members, err := engine.CreateEngine(githubToken, githubOrg, user).GetUsers()
+	if err != nil {
+		log.Fatal("Unable to fetch users due to", err)
 	}
-	client := github.NewClient(authClient)
-
-	if githubOrg != "" {
-		for {
-			members, resp, err := client.Organizations.ListMembers(context.Background(), githubOrg, &github.ListMembersOptions{})
-			if err != nil {
-				log.Fatal(err)
-			}
-			// Process data we have
-			if resp.NextPage == 0 {
-				break
-			}
-			for _, member := range members {
-				fmt.Println("The user:", member.GetLogin())
-			}
-		}
+	for _, member := range members {
+		fmt.Printf("Member is: %+v\n", member)
 	}
 }
