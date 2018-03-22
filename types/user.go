@@ -24,6 +24,9 @@ func (u *Users) GetKeys(limit int) error {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
 	for index, key := range strings.Split(string(body), "\n") {
 		if len(key) == 0 {
 			continue
