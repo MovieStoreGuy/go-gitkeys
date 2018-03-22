@@ -1,17 +1,22 @@
 package main
 
 import (
+	"bufio"
 	"flag"
-	"fmt"
+	"io"
 	"log"
+	"os"
 
 	"github.com/MovieStoreGuy/keyobtainer/engine"
+	"github.com/MovieStoreGuy/keyobtainer/output"
 )
 
 var (
-	githubOrg   string
-	githubToken string
-	user        string
+	githubOrg, githubToken, user string
+
+	out    io.Writer = os.Stdout
+	outdir string
+	format string = "raw"
 )
 
 func init() {
@@ -21,6 +26,8 @@ func init() {
 	flag.StringVar(&user, "user", base, "The Github user to get their public ssh keys")
 	flag.StringVar(&githubOrg, "org", base, "The Github org that want to fetch all public users's public ssh keys")
 	flag.StringVar(&githubToken, "token", base, "A user's github token that can access the org's details")
+	flag.StringVar(&format, "format", format, "The desired format for the output, they can be yaml, json or raw")
+	flag.StringVar(&outdir, "output", base, "Define the path you wish to output the content to")
 }
 
 func main() {
@@ -29,7 +36,21 @@ func main() {
 	if err != nil {
 		log.Fatal("Unable to fetch users due to", err)
 	}
-	for _, member := range members {
-		fmt.Printf("Member is: %+v\n", member)
+	if outdir != "" {
+		if _, err := os.Stat(outdir); !os.IsNotExist(err) {
+			log.Fatal("File already exists")
+		}
+		f, err := os.OpenFile(outdir, os.O_RDWR|os.O_CREATE, 0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+		out = bufio.NewWriter(f)
+	}
+	printer, err := output.CreatePrinter(out)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err = printer.Print(format, members); err != nil {
+		log.Fatal(err)
 	}
 }
