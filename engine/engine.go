@@ -9,6 +9,8 @@ import (
 	"golang.org/x/oauth2"
 )
 
+// Github stores all the required items
+// to be able to fetch all users
 type GitHub struct {
 	organisation string
 	token        string
@@ -16,6 +18,9 @@ type GitHub struct {
 	client       *github.Client
 }
 
+// CreateEngine makes the engine of the given settings
+// If the token is defined, then it will create a secure connect
+// to Github.
 func CreateEngine(token, org, user string) *GitHub {
 	var authClient *http.Client
 	if token != "" {
@@ -32,6 +37,8 @@ func CreateEngine(token, org, user string) *GitHub {
 	}
 }
 
+// GetUsers will return all the users the engine is configured
+// to fetch.
 func (g *GitHub) GetUsers(limit int) ([]types.Users, error) {
 	users := []types.Users{}
 	switch {
@@ -46,13 +53,8 @@ func (g *GitHub) GetUsers(limit int) ([]types.Users, error) {
 				user := types.Users{
 					Name: member.GetLogin(),
 				}
-				if err := user.GetKeys(limit); err != nil {
-					return nil, err
-				}
 				// Only output return users that have keys defined
-				if len(user.Keys) != 0 {
-					users = append(users, user)
-				}
+				users = append(users, user)
 			}
 			// Process data we have
 			if resp.NextPage == 0 {
@@ -61,13 +63,18 @@ func (g *GitHub) GetUsers(limit int) ([]types.Users, error) {
 			opt.Page = resp.NextPage
 		}
 	default:
-		user := types.Users{
+		users = append(users, types.Users{
 			Name: g.user,
-		}
+		})
+	}
+	collection := []types.Users{}
+	for _, user := range users {
 		if err := user.GetKeys(limit); err != nil {
 			return nil, err
 		}
-		users = append(users, user)
+		if len(user.Keys) != 0 {
+			collection = append(collection, user)
+		}
 	}
-	return users, nil
+	return collection, nil
 }
