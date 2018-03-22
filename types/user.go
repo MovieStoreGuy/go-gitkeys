@@ -17,16 +17,19 @@ type Users struct {
 }
 
 // GetKeys will fetch the user's public ssh keys from Github
-func (u *Users) GetKeys() error {
+func (u *Users) GetKeys(limit int) error {
 	resp, err := http.Get(fmt.Sprintf(endpoint, u.Name))
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	for _, key := range strings.Split(string(body), "\n") {
+	for index, key := range strings.Split(string(body), "\n") {
 		if len(key) == 0 {
 			continue
+		}
+		if limit != 0 && limit == index {
+			break
 		}
 		u.Keys = append(u.Keys, key)
 	}

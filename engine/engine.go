@@ -32,7 +32,7 @@ func CreateEngine(token, org, user string) *GitHub {
 	}
 }
 
-func (g *GitHub) GetUsers() ([]types.Users, error) {
+func (g *GitHub) GetUsers(limit int) ([]types.Users, error) {
 	users := []types.Users{}
 	switch {
 	case g.organisation != "":
@@ -46,7 +46,7 @@ func (g *GitHub) GetUsers() ([]types.Users, error) {
 				user := types.Users{
 					Name: member.GetLogin(),
 				}
-				if err := user.GetKeys(); err != nil {
+				if err := user.GetKeys(limit); err != nil {
 					return nil, err
 				}
 				// Only output return users that have keys defined
@@ -64,7 +64,7 @@ func (g *GitHub) GetUsers() ([]types.Users, error) {
 		user := types.Users{
 			Name: g.user,
 		}
-		if err := user.GetKeys(); err != nil {
+		if err := user.GetKeys(limit); err != nil {
 			return nil, err
 		}
 		users = append(users, user)

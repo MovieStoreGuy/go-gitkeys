@@ -13,6 +13,7 @@ import (
 
 var (
 	githubOrg, githubToken, user string
+	limit                        int
 
 	out    io.Writer = os.Stdout
 	outdir string
@@ -28,11 +29,12 @@ func init() {
 	flag.StringVar(&githubToken, "token", base, "A user's github token that can access the org's details")
 	flag.StringVar(&format, "format", format, "The desired format for the output, they can be yaml, json or raw")
 	flag.StringVar(&outdir, "output", base, "Define the path you wish to output the content to")
+	flag.IntVar(&limit, "limit", 0, "Sets the limit as to how many keys to store, zero is unlimited")
 }
 
 func main() {
 	flag.Parse()
-	members, err := engine.CreateEngine(githubToken, githubOrg, user).GetUsers()
+	members, err := engine.CreateEngine(githubToken, githubOrg, user).GetUsers(limit)
 	if err != nil {
 		log.Fatal("Unable to fetch users due to", err)
 	}
