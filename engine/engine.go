@@ -61,9 +61,13 @@ func (g *GitHub) GetUsers() ([]types.Users, error) {
 			opt.Page = resp.NextPage
 		}
 	default:
-		users = append(users, types.Users{
+		user := types.Users{
 			Name: g.user,
-		})
+		}
+		if err := user.GetKeys(); err != nil {
+			return nil, err
+		}
+		users = append(users, user)
 	}
 	return users, nil
 }
