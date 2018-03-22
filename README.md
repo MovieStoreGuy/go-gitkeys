@@ -1,4 +1,4 @@
-# Keyobtainer - cli tool to download org/user keys
+# Keyobtainer
 [![Build Status](https://travis-ci.org/MovieStoreGuy/keyobtainer.svg?branch=master)](https://travis-ci.org/MovieStoreGuy/keyobtainer)
 [![Go Report Card](https://goreportcard.com/badge/github.com/MovieStoreGuy/keyobtainer)](https://goreportcard.com/report/github.com/MovieStoreGuy/keyobtainer)  
 Imagine you are trying to provide ssh access to your internal development team and you require to obtain
@@ -8,6 +8,7 @@ Now, imagine if you could automatically grab their most recent public ssh keys w
 THAT WOULD BE AMAZING!
 
 Well, go no further, we have made exactly that!
+This application fetches public ssh keys from Github to make it easier on your DevOps team.
 
 # Usage
 ```
