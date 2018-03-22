@@ -9,7 +9,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// Github stores all the required items
+// GitHub stores all the required items
 // to be able to fetch all users
 type GitHub struct {
 	organisation string
