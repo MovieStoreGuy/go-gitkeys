@@ -62,7 +62,7 @@ func (p *Printer) Print(format string, users []types.Users) error {
 			fmt.Fprint(p.output, "\n")
 		}
 	default:
-		return errors.New("Unkown format being defined")
+		return errors.New("Unknown format being defined")
 	}
 	return nil
 }
