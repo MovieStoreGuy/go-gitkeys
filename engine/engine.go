@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/MovieStoreGuy/keyobtainer/types"
+	"github.com/MovieStoreGuy/go-gitkeys/types"
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
 )

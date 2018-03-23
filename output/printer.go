@@ -6,7 +6,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/MovieStoreGuy/keyobtainer/types"
+	"github.com/MovieStoreGuy/go-gitkeys/types"
 	"github.com/MovieStoreGuy/resources/marshal"
 	yaml "gopkg.in/yaml.v2"
 )

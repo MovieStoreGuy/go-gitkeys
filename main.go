@@ -7,8 +7,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/MovieStoreGuy/keyobtainer/engine"
-	"github.com/MovieStoreGuy/keyobtainer/output"
+	"github.com/MovieStoreGuy/go-gitkeys/engine"
+	"github.com/MovieStoreGuy/go-gitkeys/output"
 )
 
 var (
