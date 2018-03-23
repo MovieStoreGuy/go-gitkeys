@@ -27,8 +27,11 @@ Usage of ./keyobtainer:
     	The Github org that want to fetch all public users's public ssh keys
   -output string
     	Define the path you wish to output the content to
+  -team string
+    	Define the team to filter results by
   -token string
     	A user's github token that can access the org's details
   -user string
     	The Github user to get their public ssh keys
+
 ```
