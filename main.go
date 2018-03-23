@@ -38,7 +38,7 @@ func main() {
 	flag.Parse()
 	members, err := engine.CreateEngine(githubToken, githubOrg, user, team).GetUsers(limit)
 	if err != nil {
-		log.Fatal("Unable to fetch users due to", err)
+		log.Fatal("Unable to fetch users due to ", err)
 	}
 	if outdir != "" {
 		if _, err := os.Stat(outdir); !os.IsNotExist(err) {

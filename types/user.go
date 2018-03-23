@@ -1,6 +1,7 @@
 package types
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -29,6 +30,9 @@ func (u *Users) GetKeys(limit int) error {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
+	}
+	if resp.StatusCode != 200 {
+		return errors.New("Invalid request was sent to Github")
 	}
 	for index, key := range strings.Split(string(body), "\n") {
 		if len(key) == 0 {
