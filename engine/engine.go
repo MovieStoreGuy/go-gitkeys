@@ -80,7 +80,7 @@ func (g *GitHub) GetUsers(limit int) ([]types.Users, error) {
 	}
 	collection := []types.Users{}
 	for _, user := range users {
-		if err := user.GetKeys(limit); err != nil {
+		if err := user.GetKeys(g.client, limit); err != nil {
 			return nil, err
 		}
 		if len(user.Keys) != 0 {
